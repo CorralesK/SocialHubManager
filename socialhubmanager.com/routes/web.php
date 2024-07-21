@@ -3,7 +3,7 @@
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScheduleController;
-
+use App\Http\Controllers\SessionsController;
 
 // Schedules
 Route::get('schedules', [ScheduleController::class, 'index']);
@@ -19,6 +19,12 @@ Route::delete('schedules/{schedule}', [ScheduleController::class, 'destroy']);
 // Register
 Route::get('register', [RegisterController::class, 'create']);
 Route::post('register', [RegisterController::class, 'store']);
+
+// Login
+Route::get('login', [SessionsController::class, 'create']);
+Route::post('login', [SessionsController::class, 'store']);
+
+Route::post('logout', [SessionsController::class, 'destroy']);
 
 
 Route::get('/', function () {
