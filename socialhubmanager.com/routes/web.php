@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScheduleController;
 
@@ -15,6 +16,9 @@ Route::patch('schedules/{schedule}', [ScheduleController::class, 'update']);
 
 Route::delete('schedules/{schedule}', [ScheduleController::class, 'destroy']);
 
+// Register
+Route::get('register', [RegisterController::class, 'create']);
+Route::post('register', [RegisterController::class, 'store']);
 
 
 Route::get('/', function () {
