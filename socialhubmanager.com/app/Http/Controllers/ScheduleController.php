@@ -10,8 +10,10 @@ class ScheduleController extends Controller
 {
     public function index()
     {
+        // Es esto: auth()->user()->schedules->groupBy('day_of_week')
+
         return view('schedules.index', [
-            'schedules' => Schedule::all()
+            'schedules' => Schedule::all()->groupBy('day_of_week')
         ]);
     }
 
