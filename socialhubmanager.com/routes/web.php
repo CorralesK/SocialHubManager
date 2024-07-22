@@ -6,15 +6,15 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SessionsController;
 
 // Schedules
-Route::get('schedules', [ScheduleController::class, 'index']);
+Route::get('schedules', [ScheduleController::class, 'index'])->middleware('user');
 
-Route::get('schedules/create', [ScheduleController::class, 'create']);
-Route::post('schedules', [ScheduleController::class, 'store']);
+Route::get('schedules/create', [ScheduleController::class, 'create'])->middleware('user');
+Route::post('schedules', [ScheduleController::class, 'store'])->middleware('user');
 
-Route::get('schedules/{schedule}/edit', [ScheduleController::class, 'edit']);
-Route::patch('schedules/{schedule}', [ScheduleController::class, 'update']);
+Route::get('schedules/{schedule}/edit', [ScheduleController::class, 'edit'])->middleware('user');
+Route::patch('schedules/{schedule}', [ScheduleController::class, 'update'])->middleware('user');
 
-Route::delete('schedules/{schedule}', [ScheduleController::class, 'destroy']);
+Route::delete('schedules/{schedule}', [ScheduleController::class, 'destroy'])->middleware('user');
 
 // Register
 Route::get('register', [RegisterController::class, 'create']);
