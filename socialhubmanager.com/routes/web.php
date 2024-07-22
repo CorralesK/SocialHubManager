@@ -29,4 +29,4 @@ Route::post('logout', [SessionsController::class, 'destroy']);
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('user');

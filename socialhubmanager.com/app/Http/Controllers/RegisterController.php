@@ -22,7 +22,7 @@ class RegisterController extends Controller
 
         $user = User::create($attributes);
 
-        // auth()->login($user); Implementar al trabajar con sesiones...
+        auth()->login($user);
 
         return redirect('/');
     }

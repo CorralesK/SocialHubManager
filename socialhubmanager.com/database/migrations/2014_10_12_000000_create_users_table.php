@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name', 255);
             $table->string('email', 255)->unique();
             $table->string('password', 255);
+            $table->boolean('uses_two_factor')->default(false);
             $table->string('two_factor_secret')->nullable();
             $table->timestamps();
         });
