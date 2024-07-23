@@ -36,20 +36,18 @@ class TwoFactorController extends Controller
             'secret' => 'required|string'
         ]);
 
-        $google2fa = new Google2FA();
-        $valid = $google2fa->verifyKey($request->secret, $request->otp);
-
-        if ($valid) {
+        if ($this->validateOtp($request->secret, $request->otp)) {
             $user = User::find(auth()->user()->id);
             $user->two_factor_secret = $request->secret;
             $user->uses_two_factor = true;
+            $request->session()->put('two_factor_authenticated', true);
             $user->save();
 
             return redirect('/')->with('success', 'Two factor authentication enabled successfully.');
         }
 
 
-        return redirect('two-factor/activate')->withErrors(['otp' => 'Invalid OTP. Please try again.']);
+        return redirect('/two-factor/activate')->withErrors(['otp' => 'Invalid OTP. Please try again.']);
     }
 
     public function edit()
@@ -69,17 +67,15 @@ class TwoFactorController extends Controller
             return redirect('/login')->withErrors(['email' => 'Unable to find user for 2FA verification.']);
         }
 
-        $google2fa = new Google2FA();
-        $valid = $google2fa->verifyKey($user->two_factor_secret, $request->otp);
-
-        if ($valid) {
+        if ($this->validateOtp($user->two_factor_secret, $request->otp)) {
             Auth::login($user);
             session()->forget('2fa:user:id');
+            $request->session()->put('two_factor_authenticated', true);
 
             return redirect('/')->with('success', '2FA verification successful.');
         }
 
-        return redirect()->route('two_factor.edit')->withErrors(['otp' => 'Invalid OTP. Please try again.']);
+        return redirect('/two-factor/verify')->withErrors(['otp' => 'Invalid OTP. Please try again.']);
     }
 
     public function destroy(Request $request)
@@ -90,5 +86,12 @@ class TwoFactorController extends Controller
         $user->save();
 
         return redirect('/')->with('success', 'Two factor authentication disabled successfully.');
+    }
+
+    protected function validateOtp($two_factor_secret, $otp)
+    {
+        $google2fa = new Google2FA();
+        $window = config('google2fa.window');
+        return $google2fa->verifyKey($two_factor_secret, $otp, $window);
     }
 }

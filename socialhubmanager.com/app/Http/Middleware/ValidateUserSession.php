@@ -21,9 +21,11 @@ class ValidateUserSession
             return redirect('/login');
         }
 
-        // TODO
-        // if (Auth::user()->uses_two_factor) {
-        // }
+        if (Auth::user()->uses_two_factor) {
+            if (!$request->session()->has('two_factor_authenticated')) {
+                return redirect('/login');
+            }
+        }
 
         return $next($request);
     }

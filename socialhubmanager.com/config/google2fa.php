@@ -42,7 +42,7 @@ return [
     /*
      * One Time Password Window.
      */
-    'window' => 1,
+    'window' => env('OTP_WINDOW', 1),
 
     /*
      * Forbid user to reuse One Time Passwords.

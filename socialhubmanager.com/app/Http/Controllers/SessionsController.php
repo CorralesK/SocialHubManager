@@ -32,7 +32,7 @@ class SessionsController extends Controller
             session(['2fa:user:id' => $user->id]);
             auth()->logout();
 
-            return redirect('two-factor/verify');
+            return redirect('/two-factor/verify');
         }
 
 

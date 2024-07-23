@@ -32,7 +32,8 @@ Route::get('two-factor/activate', [TwoFactorController::class, 'create'])->middl
 Route::post('two-factor/activate', [TwoFactorController::class, 'store'])->middleware('user');;
 
 // Verify OTP
-
+Route::get('/two-factor/verify', [TwoFactorController::class, 'edit']);
+Route::patch('/two-factor/verify', [TwoFactorController::class, 'update']);
 
 Route::get('/', function () {
     return view('welcome');
