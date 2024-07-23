@@ -26,13 +26,13 @@ class SessionsController extends Controller
         }
 
         session()->regenerate();
-        return redirect('/');
+        return redirect('/')->with('success', 'Login completed successfully.');
     }
 
     public function destroy()
     {
         auth()->logout();
 
-        return redirect('/')->with('success', 'Goodbye!');
+        return redirect('/')->with('success', 'See you soon!');
     }
 }
