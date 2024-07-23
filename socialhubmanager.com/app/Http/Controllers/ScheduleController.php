@@ -10,11 +10,7 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        // Es esto: auth()->user()->schedules->groupBy('day_of_week')
-
-        return view('schedules.index', [
-            'schedules' => Schedule::all()->groupBy('day_of_week')
-        ]);
+        return view('schedules.index', ['schedules' => Schedule::forUser()]);
     }
 
     public function create()
@@ -31,12 +27,12 @@ class ScheduleController extends Controller
 
         Schedule::create($attributes);
 
-        return redirect('schedules.index')->with('success', 'Horario creado exitosamente.');
+        return redirect('/schedules')->with('success', 'Schedule successfully created.');
     }
 
     public function edit(Schedule $schedule)
     {
-        return view('schedules.edit', ['$schedule' => $schedule]);
+        return view('schedules.edit', ['schedule' => $schedule]);
     }
 
     public function update(Schedule $schedule, Request $request)
@@ -45,14 +41,14 @@ class ScheduleController extends Controller
 
         $schedule->update($attributes);
 
-        return redirect('schedules.index')->with('success', 'Horario actualizado exitosamente.');
+        return redirect('/schedules')->with('success', 'Schedule successfully updated.');
     }
 
     public function destroy(Schedule $schedule)
     {
         $schedule->delete();
 
-        return back()->with('success', 'Horario eliminado exitosamente.');
+        return back()->with('success', 'Schedule successfully deleted.');
     }
 
     protected function validateSchedule(?Schedule $schedule = null): array
@@ -62,13 +58,13 @@ class ScheduleController extends Controller
         return request()->validate([
             'day_of_week' => ['required', Rule::in(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])],
             'time' 
-                => ['required', 'date_format:H:i', 
+                => ['required', 
                 Rule::unique('schedules')->where(function ($query) {
-                    return $query->where('user_id', request()->user()->id)
+                    return $query->where('user_id', auth()->user()->id)
                                  ->where('day_of_week', request('day_of_week'));
                 })->ignore($schedule)],
         ], [
-            'time.unique' => 'Ya existe un horario para ese día y hora.'
+            'time.unique' => 'There is already a schedule for that day and time.'
         ]);
     }
 }
