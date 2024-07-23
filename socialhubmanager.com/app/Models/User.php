@@ -41,12 +41,12 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function setTwoFactorSecret($twoFactorSecret)
+    public function setTwoFactorSecretAttribute($twoFactorSecret)
     {
         $this->attributes['two_factor_secret'] = encrypt($twoFactorSecret);
     }
 
-    public function getTwoFactorSecret($twoFactorSecret)
+    public function getTwoFactorSecretAttribute($twoFactorSecret)
     {
         return decrypt($twoFactorSecret);
     }
