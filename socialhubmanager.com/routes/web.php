@@ -5,6 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\TwoFactorController;
+use App\Http\Controllers\SocialController;
+use App\Http\Controllers\HomeController;
+
+// Home
+Route::get('/', [HomeController::class, 'index'])->middleware('user');
 
 // Schedules
 Route::get('schedules', [ScheduleController::class, 'index'])->middleware('user');
@@ -35,6 +40,10 @@ Route::post('two-factor/activate', [TwoFactorController::class, 'store'])->middl
 Route::get('/two-factor/verify', [TwoFactorController::class, 'edit']);
 Route::patch('/two-factor/verify', [TwoFactorController::class, 'update']);
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('user');
+// Connections with social medias
+Route::get('auth/{provider}', [SocialController::class, 'redirect'])->middleware('user');
+Route::get('auth/{provider}/callback', [SocialController::class, 'callback']);
+
+// Route::get('/', function () {
+//     return view('welcome');
+// })->middleware('user');
