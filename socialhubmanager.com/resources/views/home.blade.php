@@ -15,6 +15,9 @@
                     <a href="/auth/linkedin" class="mt-5">
                         Linkedin
                     </a>
+                    <a href="/auth/mastodon" class="mt-5">
+                        Mastodon.social
+                    </a>
                 </section>
             </div>
         </main>

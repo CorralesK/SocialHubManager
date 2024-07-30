@@ -10,6 +10,7 @@ use App\Services\TwitterService;
 use App\Services\SocialService;
 use App\Services\DefaultService;
 use App\Services\LinkedInService;
+use App\Services\MastodonService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
         // TODO: Create custom Service Provider for social medias
         $this->app->singleton(TwoFactorService::class, function ($app) {
             return new TwoFactorService(new Google2Fa());
-        });      
-        
+        });
+
         $this->app->singleton(SocialService::class, function ($app) {
             $provider = request()->route('provider');
 
@@ -37,7 +38,9 @@ class AppServiceProvider extends ServiceProvider
                     return new TwitterService();
                 case 'linkedin':
                     return new LinkedInService();
-                // Otros casos según sea necesario
+                case 'mastodon':
+                    return new MastodonService();
+                    // Otros casos según sea necesario
                 default:
                     throw new \Exception("Unsupported provider: {$provider}");
             }

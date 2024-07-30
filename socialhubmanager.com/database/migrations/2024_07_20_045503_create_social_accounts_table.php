@@ -19,7 +19,7 @@ class CreateSocialAccountsTable extends Migration
             $table->string('provider', 50);
             $table->string('provider_user_id', 255);
             $table->text('provider_token');
-            $table->string('provider_token_secret', 255)->nullable();
+            $table->text('provider_token_secret')->nullable();
             $table->string('provider_refresh_token', 255)->nullable();
             $table->timestamps();
         });
