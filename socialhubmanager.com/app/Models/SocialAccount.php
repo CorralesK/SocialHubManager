@@ -13,17 +13,17 @@ class SocialAccount extends Model
 
     public function setProviderTokenAttribute($providerToken)
     {
-        $this->attributes['provider_token'] = encrypt($providerToken);
+        $this->attributes['provider_token'] = !empty($providerToken) ? encrypt($providerToken) : null;
     }
 
     public function setProviderTokenSecretAttribute($providerTokenSecret)
     {
-        $this->attributes['provider_token_secret'] = encrypt($providerTokenSecret);
+        $this->attributes['provider_token_secret'] = !empty($providerTokenSecret) ? encrypt($providerTokenSecret) : null;
     }
 
     public function setProviderRefreshTokenAttribute($providerRefreshToken)
     {
-        $this->attributes['provider_refresh_token'] = encrypt($providerRefreshToken);
+        $this->attributes['provider_refresh_token'] = !empty($providerRefreshToken) ? encrypt($providerRefreshToken) : null;
     }
 
     public function getProviderTokenAttribute($providerToken)
