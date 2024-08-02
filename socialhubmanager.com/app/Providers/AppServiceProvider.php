@@ -9,6 +9,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Services\TwitterService;
 use App\Services\SocialService;
 use App\Services\DefaultService;
+use App\Services\LinkedInService;
+use App\Services\MastodonService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,11 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // TODO: Create custom Service Provider
+        // TODO: Create custom Service Provider for social medias
         $this->app->singleton(TwoFactorService::class, function ($app) {
             return new TwoFactorService(new Google2Fa());
-        });      
-        
+        });
+
         $this->app->singleton(SocialService::class, function ($app) {
             $provider = request()->route('provider');
 
@@ -34,7 +36,11 @@ class AppServiceProvider extends ServiceProvider
             switch ($provider) {
                 case 'twitter':
                     return new TwitterService();
-                // Otros casos según sea necesario
+                case 'linkedin':
+                    return new LinkedInService();
+                case 'mastodon':
+                    return new MastodonService();
+                    // Otros casos según sea necesario
                 default:
                     throw new \Exception("Unsupported provider: {$provider}");
             }

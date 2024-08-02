@@ -7,10 +7,16 @@
             <p class="text-xs font-medium text-gray-500 tracking-wider mb-8 pb-2 pt-2">
                 Which social network would you like to connect with?
             </p>
-            <div class="flex">
-                <section class="">
+            <div class="">
+                <section class="flex flex-col">
                     <a href="auth/twitter" class="">
                         X
+                    </a>
+                    <a href="/auth/linkedin" class="mt-5">
+                        Linkedin
+                    </a>
+                    <a href="/auth/mastodon" class="mt-5">
+                        Mastodon.social
                     </a>
                 </section>
             </div>

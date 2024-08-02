@@ -60,7 +60,7 @@ class TwoFactorController extends Controller
 
     public function edit()
     {
-        return view('two_factor.edit');
+        return session('2fa:user:id') ? view('two_factor.edit') : redirect('/login');
     }
 
     public function update(Request $request)

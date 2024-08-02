@@ -5,16 +5,17 @@ namespace App\Services;
 use App\Models\SocialAccount;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
-class TwitterService implements SocialService  
+class TwitterService extends SocialService  
 {  
     private $client; 
     private $baseUrl = 'https://api.twitter.com/1.1/';  
 
     public function __construct()  
     {   
+        parent::__construct('twitter');
         $this->client = new TwitterOAuth(
-            config('services.twitter.client_id'), 
-            config('services.twitter.client_secret')
+            $this->clientId,
+            $this->clientSecret
         );
     }  
 
@@ -49,18 +50,13 @@ class TwitterService implements SocialService
         if (!isset($accessToken['user_id'])) {  
             throw new \Exception("user_id no encontrado en la respuesta");  
         }  
-
-        $socialAccount = SocialAccount::updateOrCreate(  
-            [  
-                'provider' => 'twitter',  
-                'provider_user_id' => $accessToken['user_id'],  
-            ],  
-            [  
-                'user_id' => auth()->id(),
-                'provider_token' => $accessToken['oauth_token'],  
-                'provider_token_secret' => $accessToken['oauth_token_secret'],  
-            ]  
-        );  
+        
+        $socialAccount = $this->updateOrCreateSocialAccount(
+            'twitter',
+            $accessToken['user_id'],
+            $accessToken['oauth_token'],
+            $accessToken['oauth_token_secret']
+        );
 
         return $socialAccount;  
     } 
