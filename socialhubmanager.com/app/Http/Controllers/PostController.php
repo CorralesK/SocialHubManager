@@ -5,17 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\SocialAccount;
-use App\Services\SocialService;
 
 class PostController extends Controller
 {
-    protected $socialService;
-
-    public function __construct(SocialService $socialService)
-    {
-        $this->socialService = $socialService;
-    }
-
     public function create()
     {
         return view('posts.create');
@@ -23,47 +15,34 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $attributes = $request->validate([
             'content' => 'required|string',
-            'publish_option' => 'required|string|in:now,queue,schedule',
+            'provider' => 'required|string',
             'scheduled_at' => 'nullable|date|after:now',
         ]);
 
-        $post = new Post();
-        $post->user_id = $request->user()->id;
-        $post->content = $validatedData['content'];
-        $post->status = 'pending';
+        $attributes['user_id'] = auth()->id();
+        $attributes['status'] = 'pending';
+        
+        $post = Post::create($attributes);
 
-        if ($validatedData['publish_option'] === 'schedule' && $validatedData['scheduled_at']) {
-            $post->status = 'pending';
-            $post->scheduled_at = $validatedData['scheduled_at'];
-        } elseif ($validatedData['publish_option'] === 'queue') {
-            $post->status = 'pending';
-            $post->queued_at = now();
-        } else {
-            $post->status = 'published';
-            $post->is_instant = true;
+        if ($request->publish_option === 'now') {
+            $post->update(['is_instant' => true]);
+            return redirect("auth/{$post->provider}/publish/{$post->id}");
+
+        } elseif ($request->publish_option === 'queue') {
+            $post->update(['queued_at' => now()]);
+            return redirect('/post/create')->with('success', 'Post queued successfully.');
+
+        } elseif ($request->publish_option === 'schedule') {
+       
+            if (!isset($attributes['scheduled_at'])) {
+                return redirect('/post/create')->with('error', 'Scheduling date is required.');
+            }
+
+            $post->update(['scheduled_at' => $attributes['scheduled_at']]);
+            return redirect('/post/create')->with('success', 'Post scheduled successfully.');
         }
-
-        $post->save();
-
-        if ($validatedData['publish_option'] === 'now') {
-            $this->publishPost($post);
-        }
-
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
-    protected function publishPost(Post $post)
-    {
-        $user = $post->user;
-        $socialAccounts = SocialAccount::where('user_id', $user->id)->get();
-
-        foreach ($socialAccounts as $socialAccount) {
-            $this->socialService->postMessage($socialAccount, $post->content);
-        }
-
-        $post->status = 'published';
-        $post->save();
-    }
 }

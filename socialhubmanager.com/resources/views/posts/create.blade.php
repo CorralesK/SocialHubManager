@@ -2,45 +2,43 @@
     <x-setting heading="Create Post">
         <div class="overflow-x-auto">
             <x-panel>
-                <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data" class="mt-2">
+                <form method="POST" action="/post" enctype="multipart/form-data" class="mt-2">
                     @csrf
 
-                    <div class="mb-4">
-                        <label for="content" class="block text-gray-700 text-sm font-bold mb-2">
-                            Post Content
-                        </label>
-                        <textarea id="content" name="content" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
-                    </div>
+                    <x-form.field>
+                        <x-form.label name="Post Content" />
+                        <textarea name="content" id="content"
+                            class="w-full h-40 border rounded mt-1 py-2 px-3 shadow appearance-none leading-tight text-gray-700" required>{{ old('content') ?? '' }}</textarea>
+                        <x-form.error name="content" />
+                    </x-form.field>
 
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Publish Option
-                        </label>
-                        <div>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="publish_option" value="now" checked class="form-radio">
-                                <span class="ml-2">Publish Now</span>
-                            </label>
-                        </div>
-                        <div>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="publish_option" value="queue" class="form-radio">
-                                <span class="ml-2">Add to Queue</span>
-                            </label>
-                        </div>
-                        <div>
-                            <label class="inline-flex items-center">
-                                <input type="radio" name="publish_option" value="schedule" class="form-radio">
-                                <span class="ml-2">Schedule</span>
-                            </label>
-                        </div>
-                    </div>
+                    <x-form.field>
+                        <x-form.label name="Social Media" />
+
+                        @foreach (auth()->user()->socialAccount as $social)
+                            <x-form.radio-option name="provider" value="{{ $social->provider }}">
+                                <x-social-icon socialNetwork="{{ $social->provider }}" />
+                                {{ $social->provider }}
+                            </x-form.radio-option>
+                        @endforeach
+                    </x-form.field>
+
+
+                    <x-form.field>
+                        <x-form.label name="Publish Option" />
+
+                        <x-form.radio-option name="publish_option" value="now" checked> Publish Now
+                        </x-form.radio-option>
+                        <x-form.radio-option name="publish_option" value="queue"> Add to Queue </x-form.radio-option>
+                        <x-form.radio-option name="publish_option" value="schedule"> Schedule </x-form.radio-option>
+                    </x-form.field>
 
                     <div id="scheduleDateTimePicker" class="mb-4" style="display: none;">
-                        <label for="scheduled_at" class="block text-gray-700 text-sm font-bold mb-2">
-                            Schedule Date and Time
-                        </label>
-                        <input type="datetime-local" id="scheduled_at" name="scheduled_at" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <x-form.label name="Schedule Date and Time" />
+                        <input class="border border-gray-200 p-2 w-full rounded" name="scheduled_at" id="scheduled_at"
+                            type="datetime-local" value="{{ old('scheduled_at') ?? '' }}">
+
+                        <x-form.error name="scheduled_at" />
                     </div>
 
                     <x-form.button>Save</x-form.button>
@@ -51,13 +49,13 @@
 </x-layout>
 
 <script>
-document.querySelectorAll('input[name="publish_option"]').forEach((elem) => {
-    elem.addEventListener("change", function(event) {
-        if (event.target.value === "schedule") {
-            document.getElementById("scheduleDateTimePicker").style.display = "block";
-        } else {
-            document.getElementById("scheduleDateTimePicker").style.display = "none";
-        }
+    document.querySelectorAll('input[name="publish_option"]').forEach((elem) => {
+        elem.addEventListener("change", function(event) {
+            if (event.target.value === "schedule") {
+                document.getElementById("scheduleDateTimePicker").style.display = "block";
+            } else {
+                document.getElementById("scheduleDateTimePicker").style.display = "none";
+            }
+        });
     });
-});
 </script>

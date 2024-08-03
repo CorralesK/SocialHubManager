@@ -16,9 +16,10 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('provider');
             $table->text('content');
             $table->enum('status', ['pending', 'published', 'failed']);
-            $table->boolean('is_instant');
+            $table->boolean('is_instant')->default(false);
             $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('queued_at')->nullable();
             $table->timestamps();
