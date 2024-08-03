@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function socialAccount()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

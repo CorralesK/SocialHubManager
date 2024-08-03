@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(SocialService::class, function ($app) {
             $provider = request()->route('provider');
-
+            
             if (!$provider) {
                 return new DefaultService();
             }
@@ -40,7 +40,6 @@ class AppServiceProvider extends ServiceProvider
                     return new LinkedInService();
                 case 'mastodon':
                     return new MastodonService();
-                    // Otros casos según sea necesario
                 default:
                     throw new \Exception("Unsupported provider: {$provider}");
             }

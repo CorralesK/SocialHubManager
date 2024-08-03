@@ -22,7 +22,7 @@ class ScheduleController extends Controller
     {
 
         $attributes = array_merge($this->validateSchedule(), [
-            'user_id' => $request->user()->id
+            'user_id' => auth()->user()->id
         ]);
 
         Schedule::create($attributes);

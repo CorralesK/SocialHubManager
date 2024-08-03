@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\SocialAccount;
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Illuminate\Support\Facades\Http;
 
 class TwitterService extends SocialService  
 {  
@@ -63,16 +64,17 @@ class TwitterService extends SocialService
 
     public function postMessage($socialAccount, string $message)  
     {  
-        $this->client->setOauthToken($socialAccount->provider_token, $socialAccount->provider_token_secret);
+        $response = Http::withHeaders([  
+            'Authorization' => 'Bearer ' . $socialAccount->provider_token,  
+        ])->post("$this->baseUrl/tweets", [  
+            'text' => $message,  
+        ]); 
+        dd($response);
 
-        $result = $this->client->post('statuses/update', [
-            'status' => $message
-        ]);
+        if (!$response->successful()) {  
+            throw new \Exception('No se pudo publicar el mensaje: ' . $response->body());  
+        }  
 
-        if (isset($result->errors)) {
-            throw new \Exception("No se pudo publicar el mensaje: " . json_encode($result->errors));
-        }
-
-        return $result;
-    }  
+        return $response;  
+    } 
 }

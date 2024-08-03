@@ -11,6 +11,11 @@ class SocialAccount extends Model
 
     protected $guarded = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function setProviderTokenAttribute($providerToken)
     {
         $this->attributes['provider_token'] = !empty($providerToken) ? encrypt($providerToken) : null;

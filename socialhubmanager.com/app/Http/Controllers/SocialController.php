@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 use App\Services\SocialService;
 use App\Models\SocialAccount;
 
@@ -30,6 +31,23 @@ class SocialController extends Controller
             $socialAccount = $this->service->getAccessToken($request->code);
         }
 
-        return redirect('/posts/create')->with('success', 'Account connected successfully!');
+        return redirect('/post/create')->with('success', 'Account connected successfully!');
+    }
+
+    public function publishPost($provider, $postId)
+    {
+        $post = Post::findOrFail($postId);
+
+        $socialAccount = SocialAccount::where('user_id', $post->user_id)
+                                    ->where('provider', $provider)
+                                    ->firstOrFail();
+
+        if (!$this->service->postMessage($socialAccount, $post->content)) {
+            $post->update(['status' => 'failed']);
+            return back()->with('error', 'Failed to publish the post.');
+        }
+
+        $post->update(['status' => 'published']);
+        return back()->with('success', 'Post published successfully!');
     }
 }
