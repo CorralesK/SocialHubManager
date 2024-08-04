@@ -36,7 +36,7 @@ class MastodonService extends SocialService
         return $socialAccount;
     }
 
-    public function postMessage($socialAccount, string $message)
+    public function postMessage(SocialAccount $socialAccount, string $message)
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $socialAccount->provider_token,

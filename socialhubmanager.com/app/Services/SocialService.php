@@ -13,7 +13,7 @@ abstract class SocialService
 
     abstract public function getAuthorizationUrl();
     abstract public function getAccessToken($code);
-    abstract public function postMessage($socialAccount, string $message);
+    abstract public function postMessage(SocialAccount $socialAccount, string $message);
 
     public function __construct($config)
     {
