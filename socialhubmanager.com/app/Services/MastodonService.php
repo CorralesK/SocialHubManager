@@ -16,11 +16,16 @@ class MastodonService extends SocialService
 
     public function getAuthorizationUrl()
     {
-        $responseType = "code";
-        $scope = 'read%20write';
-        $authorizationUrl = "$this->baseUrl/oauth/authorize?response_type=$responseType&client_id=$this->clientId&redirect_uri=$this->redirectUri&scope=$scope&force_login=true";
+        $scope = 'read write';
+        $urlString = sprintf(
+            '%s/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s&force_login=true',
+            $this->baseUrl,
+            $this->clientId,
+            $this->redirectUri,
+            urlencode($scope)
+        );
 
-        return $authorizationUrl;
+        return $urlString;
     }
 
     public function getAccessToken($code)

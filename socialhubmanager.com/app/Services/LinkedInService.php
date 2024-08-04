@@ -17,9 +17,14 @@ class LinkedInService extends SocialService
 
     public function getAuthorizationUrl()
     {
-        $scope = 'openid%20profile%20email%20w_member_social';
-        $response_type = 'code';
-        $urlString = "$this->baseUrl/oauth/v2/authorization?response_type=$response_type&client_id=$this->clientId&redirect_uri=$this->redirectUri&scope=$scope";
+        $scope = 'openid profile email w_member_social';
+        $urlString = sprintf(
+            '%s/oauth/v2/authorization?response_type=code&client_id=%s&redirect_uri=%s&scope=%s',
+            $this->baseUrl,
+            $this->clientId,
+            $this->redirectUri,
+            urlencode($scope)
+        );
 
         return $urlString;
     }

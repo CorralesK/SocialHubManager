@@ -11,6 +11,7 @@ use App\Services\SocialService;
 use App\Services\DefaultService;
 use App\Services\LinkedInService;
 use App\Services\MastodonService;
+use App\Services\SocialServiceFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,21 +29,12 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(SocialService::class, function ($app) {
             $provider = request()->route('provider');
-            
+
             if (!$provider) {
                 return new DefaultService();
             }
 
-            switch ($provider) {
-                case 'twitter':
-                    return new TwitterService();
-                case 'linkedin':
-                    return new LinkedInService();
-                case 'mastodon':
-                    return new MastodonService();
-                default:
-                    throw new \Exception("Unsupported provider: {$provider}");
-            }
+            return SocialServiceFactory::make($provider);
         });
     }
 
