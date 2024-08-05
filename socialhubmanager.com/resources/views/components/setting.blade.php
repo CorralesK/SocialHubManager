@@ -8,12 +8,14 @@
                 <h4 class="text-xl font-medium text-gray-800 tracking-wider text-center mb-4"> Menu </h4>
                 <ul class="space-y-2">
                     <li>
-                        <a href="schedules" class="{{ request()->is('schedules') ? 'text-blue-500' : '' }}">
+                        <a href="/schedules" class="{{ request()->is('schedules') ? 'text-blue-500' : '' }}">
                             Publications Schedules
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="{{ request()->is('') ? 'text-blue-500' : '' }}"> A modificar </a>
+                        <a href="/post/create" class="{{ request()->is('post/create') ? 'text-blue-500' : '' }}"> 
+                            Create Post 
+                        </a>
                     </li>
                 </ul>
             </aside>
