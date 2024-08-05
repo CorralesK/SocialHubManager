@@ -50,7 +50,7 @@
 
 <script>
     document.querySelectorAll('input[name="publish_option"]').forEach((elem) => {
-        elem.addEventListener("change", function(event) {
+        elem.addEventListener("click", function(event) {
             if (event.target.value === "schedule") {
                 document.getElementById("scheduleDateTimePicker").style.display = "block";
             } else {

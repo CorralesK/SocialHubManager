@@ -113,6 +113,12 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'scheduled_posts' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/scheduled_posts.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
