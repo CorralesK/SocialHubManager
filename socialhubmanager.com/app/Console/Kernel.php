@@ -15,7 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+<<<<<<< HEAD
         $schedule->command('posts:process-queue')->everyMinute();
+=======
+        $schedule->command('posts:schedule')->everyMinute();
+>>>>>>> 70862d66779a81b23d7a55209a98c63a3c22477e
     }
 
     /**
@@ -25,7 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
