@@ -48,4 +48,13 @@ class PostController extends Controller
             return redirect('/post/create')->with('success', 'Post scheduled successfully.');
         }
     }
+
+    public function history(Request $request)
+    {
+        $filters = $request->only(['status', 'search']);
+
+        $posts = Post::filter($filters)->get();
+        
+        return view('posts.history', ['posts' => $posts]);
+    }
 }

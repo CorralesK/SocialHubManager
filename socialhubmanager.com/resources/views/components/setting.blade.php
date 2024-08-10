@@ -13,8 +13,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/post/create" class="{{ request()->is('post/create') ? 'text-blue-500' : '' }}"> 
-                            Create Post 
+                        <a href="/post/create" class="{{ request()->is('post/create') ? 'text-blue-500' : '' }}">
+                            Create Post
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/post/queued-history" class="{{ request()->is('post/queued-history') ? 'text-blue-500' : '' }}">
+                            Queued Posts History
                         </a>
                     </li>
                 </ul>

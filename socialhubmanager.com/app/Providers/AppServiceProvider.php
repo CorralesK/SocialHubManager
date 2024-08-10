@@ -6,12 +6,9 @@ use App\Services\TwoFactorService;
 use PragmaRX\Google2FAQRCode\Google2FA;
 use Illuminate\Support\ServiceProvider;
 
-use App\Services\TwitterService;
 use App\Services\SocialService;
 use App\Services\DefaultService;
-use App\Services\LinkedInService;
-use App\Services\MastodonService;
-use App\Services\SocialServiceFactory;
+use App\Providers\SocialServiceFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
