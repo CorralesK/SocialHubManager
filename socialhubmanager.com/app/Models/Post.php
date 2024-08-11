@@ -22,11 +22,18 @@ class Post extends Model
 
     public function scopeFilter(Builder $query, $filters)
     {
-        $query->where('user_id', auth()->id())
-            ->where('is_instant', false);
+        $query->where('user_id', auth()->id());
+
+        if ($filters['query'] == 'queued') {
+            $query->where('is_instant', false);
+        }
 
         if (isset($filters['status'])) {
             $query->where('status', $filters['status']);
+        }
+
+        if (isset($filters['search'])) {
+            $query->where('content', 'like', '%' . $filters['search'] . '%');
         }
 
         return $query;

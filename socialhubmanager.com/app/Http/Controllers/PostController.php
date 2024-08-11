@@ -9,6 +9,17 @@ use Carbon\Carbon;
 
 class PostController extends Controller
 {
+    public function index(Request $request)
+    {
+        $filters = array_merge($request->only(['status', 'search']), ['query' => 'all']);
+
+        $posts = Post::filter($filters)
+            ->paginate(8)
+            ->withQueryString();
+
+        return view('posts.index', ['posts' => $posts]);
+    }
+
     public function create()
     {
         return view('posts.create');
@@ -51,10 +62,12 @@ class PostController extends Controller
 
     public function history(Request $request)
     {
-        $filters = $request->only(['status', 'search']);
+        $filters = array_merge($request->only(['status', 'search']), ['query' => 'queued']);
 
-        $posts = Post::filter($filters)->get();
-        
+        $posts = Post::filter($filters)
+            ->paginate(8)
+            ->withQueryString();
+
         return view('posts.history', ['posts' => $posts]);
     }
 }

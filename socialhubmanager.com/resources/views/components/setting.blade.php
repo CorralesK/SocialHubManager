@@ -8,6 +8,11 @@
                 <h4 class="text-xl font-medium text-gray-800 tracking-wider text-center mb-4"> Menu </h4>
                 <ul class="space-y-2">
                     <li>
+                        <a href="/post/history" class="{{ request()->is('post/history') ? 'text-blue-500' : '' }}">
+                            Post History
+                        </a>
+                    </li>
+                    <li>
                         <a href="/schedules" class="{{ request()->is('schedules') ? 'text-blue-500' : '' }}">
                             Publications Schedules
                         </a>

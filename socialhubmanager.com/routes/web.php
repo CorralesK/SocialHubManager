@@ -55,3 +55,4 @@ Route::get('post/{post}/schedule', [PostController::class, 'schedule'])->middlew
 Route::patch('post/{post}/schedule', [PostController::class, 'updateScheduled'])->middleware('user');
 
 Route::get('post/queued-history', [PostController::class, 'history'])->middleware('user');
+Route::get('post/history', [PostController::class, 'index'])->middleware('user');
