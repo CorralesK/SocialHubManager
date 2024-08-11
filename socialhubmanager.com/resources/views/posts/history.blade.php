@@ -1,6 +1,6 @@
 <x-layout>
     <x-setting heading="Queued Posts History">
-        <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white">
+        <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white mt-6">
             <x-posts.dropdown-status uri="/post/queued-history" />
             <x-posts.search />
             <x-posts.link-clear-filters />
@@ -42,7 +42,7 @@
                                     <a x-data="{ disabled: '{{ $post->status }}' === 'published' }"
                                         :class="{ 'pointer-events-none opacity-50 cursor-not-allowed': disabled }"
                                         :href="disabled ? '#' : '{{ url('/') }}/auth/{{ $post->provider }}/publish/{{ $post->id }}'"
-                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:bold transform transition hover:scale-110">
                                         Publish Now
                                     </a>
                                 </td>

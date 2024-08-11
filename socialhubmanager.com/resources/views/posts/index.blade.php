@@ -1,6 +1,6 @@
 <x-layout>
     <x-setting heading="Post History">
-        <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white">
+        <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white mt-6">
             <x-posts.dropdown-status uri="/post/history" />
             <x-posts.search />
             <x-posts.link-clear-filters />
