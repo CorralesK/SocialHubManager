@@ -7,9 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Services\SocialService;
-use App\Services\SocialServiceFactory;
 use App\Models\User;
 use App\Models\Post;
+use App\Providers\SocialServiceFactory;
 
 class ProcessPostQueue extends Command
 {
