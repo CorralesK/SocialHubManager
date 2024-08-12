@@ -119,6 +119,11 @@ return [
             'path' => storage_path('logs/scheduled_posts.log'),
             'level' => 'info',
         ],
+        'queued_posts' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/queued_posts.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

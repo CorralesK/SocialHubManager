@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Services\SocialService;
 use App\Models\User;
@@ -50,15 +49,17 @@ class ProcessPostQueue extends Command
         $users = User::all();
 
         foreach ($users as $user) {
-            $schedules = $user->schedules()->where('day_of_week', $currentDay)
-                                        ->whereRaw('DATE_FORMAT(time, "%H:%i") = ?', [$currentTime])
-                                        ->get();
+            $schedules = $user->schedules()
+                ->where('day_of_week', $currentDay)
+                ->whereRaw('DATE_FORMAT(time, "%H:%i") = ?', [$currentTime])
+                ->get();
             
             foreach ($schedules as $schedule) {
-                $post = $user->posts()->where('status', 'pending')
-                                        ->whereNotNull('queued_at')
-                                        ->orderBy('queued_at')
-                                        ->first();
+                $post = $user->posts()
+                    ->where('status', 'pending')
+                    ->whereNotNull('queued_at')
+                    ->orderBy('queued_at')
+                    ->first();
                 
                 if ($post) {
                     try {
@@ -72,16 +73,21 @@ class ProcessPostQueue extends Command
                                 'created_at' => Carbon::now(),
                                 'updated_at' => Carbon::now(),
                             ]);
+
+                            Log::channel('queued_posts')->info("Post {$post->id} published successfully for user {$user->id}.");
+                        } else {
+                            Log::channel('queued_posts')->warning("Failed to publish post {$post->id} for user {$user->id}.");
                         }
 
                     } catch (\Exception $e) {
-                        \Log::error('Error al publicar el post: ' . $e->getMessage());
+                        Log::channel('queued_posts')->error('Error publishing post: ' . $e->getMessage());
                     }
                     
                     break;
+                } else {
+                    Log::channel('queued_posts')->info("No pending posts available for user {$user->id}.");
                 }
             }
         }
     }
-
 }
