@@ -48,15 +48,15 @@ class PostController extends Controller
             return redirect("auth/{$post->provider}/publish/{$post->id}");
         } elseif ($request->publish_option === 'queue') {
             $post->update(['queued_at' => now()]);
-            return redirect('/post/create')->with('success', 'Post queued successfully.');
+            return redirect('/post/history')->with('success', 'Post queued successfully.');
         } elseif ($request->publish_option === 'schedule') {
 
             if (!isset($attributes['scheduled_at'])) {
-                return redirect('/post/create')->with('error', 'Scheduling date is required.');
+                return redirect('/post/history')->with('error', 'Scheduling date is required.');
             }
 
             $post->update(['scheduled_at' => $attributes['scheduled_at']]);
-            return redirect('/post/create')->with('success', 'Post scheduled successfully.');
+            return redirect('/post/history')->with('success', 'Post scheduled successfully.');
         }
     }
 
