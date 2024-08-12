@@ -19,6 +19,7 @@
         if (search.trim() !== '') {
             const url = new URL(window.location.href);
             url.searchParams.set('search', search);
+            url.searchParams.delete('page');
             window.location.href = url.toString();
         }
     }

@@ -31,7 +31,7 @@ Route::post('register', [RegisterController::class, 'store']);
 Route::get('login', [SessionsController::class, 'create']);
 Route::post('login', [SessionsController::class, 'store']);
 
-Route::post('logout', [SessionsController::class, 'destroy']);
+Route::get('logout', [SessionsController::class, 'destroy']);
 
 // Activate Two factor authentication
 Route::get('two-factor/activate', [TwoFactorController::class, 'create'])->middleware('user');
@@ -54,5 +54,4 @@ Route::post('post', [PostController::class,  'store'])->middleware('user');
 Route::get('post/{post}/schedule', [PostController::class, 'schedule'])->middleware('user');
 Route::patch('post/{post}/schedule', [PostController::class, 'updateScheduled'])->middleware('user');
 
-Route::get('post/queued-history', [PostController::class, 'history'])->middleware('user');
-Route::get('post/history', [PostController::class, 'index'])->middleware('user');
+Route::get('post/history', [PostController::class, 'index'])->middleware('user')->name('history');

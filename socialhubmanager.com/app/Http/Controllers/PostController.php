@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $filters = array_merge($request->only(['status', 'search']), ['query' => 'all']);
+        $filters = array_merge($request->only(['status', 'search', 'type']));
 
         $posts = Post::filter($filters)
             ->paginate(8)
@@ -58,16 +58,5 @@ class PostController extends Controller
             $post->update(['scheduled_at' => $attributes['scheduled_at']]);
             return redirect('/post/history')->with('success', 'Post scheduled successfully.');
         }
-    }
-
-    public function history(Request $request)
-    {
-        $filters = array_merge($request->only(['status', 'search']), ['query' => 'queued']);
-
-        $posts = Post::filter($filters)
-            ->paginate(8)
-            ->withQueryString();
-
-        return view('posts.history', ['posts' => $posts]);
     }
 }

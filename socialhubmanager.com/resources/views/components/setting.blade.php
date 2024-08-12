@@ -35,13 +35,6 @@
                     </a>
                 </li>
             @endif
-            <li>
-                <a href="/post/queued-history"
-                    class="{{ request()->is('post/queued-history') ? 'text-white bg-blue-500' : '' }} flex items-center rounded-lg py-2 px-2 transform transition hover:scale-110 hover:text-white hover:bg-blue-500">
-                    <x-icon name="clock" />
-                    Queued Posts History
-                </a>
-            </li>
         </ul>
     </aside>
 
