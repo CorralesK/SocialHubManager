@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class ScheduleController extends Controller
@@ -32,6 +33,8 @@ class ScheduleController extends Controller
 
     public function edit(Schedule $schedule)
     {
+        $schedule = $schedule->convertToLocalTime($schedule);
+        
         return view('schedules.edit', ['schedule' => $schedule]);
     }
 
@@ -55,16 +58,19 @@ class ScheduleController extends Controller
     {
         $schedule ??= new Schedule();
 
-        return request()->validate([
+        $convertedScheduleData = Schedule::convertToUTC(request()->day_of_week, request()->time);
+
+        return Validator::make($convertedScheduleData, [
             'day_of_week' => ['required', Rule::in(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])],
-            'time' 
-                => ['required', 
-                Rule::unique('schedules')->where(function ($query) {
+            'time' => [
+                'required',
+                Rule::unique('schedules')->where(function ($query) use ($convertedScheduleData) {
                     return $query->where('user_id', auth()->user()->id)
-                                 ->where('day_of_week', request('day_of_week'));
-                })->ignore($schedule)],
+                        ->where('day_of_week', $convertedScheduleData['day_of_week']);
+                })->ignore($schedule)
+            ],
         ], [
             'time.unique' => 'There is already a schedule for that day and time.'
-        ]);
+        ])->validate();
     }
 }
