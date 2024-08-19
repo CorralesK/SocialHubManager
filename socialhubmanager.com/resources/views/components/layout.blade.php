@@ -38,8 +38,8 @@
             <div class="flex items-center space-x-10">
                 @if (auth()->check())
                     <a href="/" class="{{ request()->is('/') ? 'text-blue-500' : '' }} text-2xs font-bold hover:text-blue-500">Home</a>
-                    <a href="/schedules" class="{{ request()->is('/schedules') ? 'text-blue-500' : '' }} text-2xs font-bold hover:text-blue-500">Schedules</a>
-                    <a href="/two-factor/activate" class="{{ request()->is('/two-factor/activate') ? 'text-blue-500' : '' }} text-2xs font-bold hover:text-blue-500">Two Factor Authentication</a>
+                    <a href="/schedules" class="{{ request()->is('schedules') ? 'text-blue-500' : '' }} text-2xs font-bold hover:text-blue-500">Schedules</a>
+                    <x-navbar.dropdown-2fa></x-nav.dropdown-2fa>
                     <a href="/logout" class="text-2xs font-bold hover:text-blue-500">Log out</a>
                 @endif
             </div>

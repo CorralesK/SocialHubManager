@@ -35,7 +35,10 @@ Route::get('logout', [SessionsController::class, 'destroy']);
 
 // Activate Two factor authentication
 Route::get('two-factor/activate', [TwoFactorController::class, 'create'])->middleware('user');
-Route::post('two-factor/activate', [TwoFactorController::class, 'store'])->middleware('user');;
+Route::post('two-factor/activate', [TwoFactorController::class, 'store'])->middleware('user');
+
+// Deactivate Two factor authentication
+Route::delete('two-factor/deactivate', [TwoFactorController::class, 'destroy'])->middleware('user');
 
 // Verify OTP
 Route::get('/two-factor/verify', [TwoFactorController::class, 'edit']);

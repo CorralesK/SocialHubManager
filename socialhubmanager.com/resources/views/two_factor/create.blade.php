@@ -1,7 +1,7 @@
 <x-layout>
     <section class="px-6 py-4 mt-2">
         <main class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-8">
-            <h1 class="text-center text-3xl font-semibold text-gray-900 mb-5 border-b border-gray-200 pb-4">
+            <h1 class="text-3xl text-center text-gray-700 font-semibold mb-7 border-b border-gray-200 pb-4 mt-2">
                 Activate Two Factor Authentication
             </h1>
 
@@ -26,7 +26,7 @@
                 <input type="hidden" name="secret" value="{{ $secretKey }}">
 
                 <div class="w-full mt-4">
-                    <input type="number" name="otp" placeholder="Insert OTP" class="border border-gray-300 p-2 w-full rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                    <input type="number" name="otp" placeholder="Insert OTP" class="border border-gray-300 p-2 w-full rounded-lg shadow-sm" required>
                     <x-form.error name="otp" />
                 </div>
 

@@ -2,7 +2,7 @@
     <section class="px-6 py-8">
         <main class="max-w-lg mx-auto mt-10">
             <x-panel class="shadow-lg rounded-lg p-8">
-                <h1 class="text-3xl text-center font-semibold text-gray-800 mt-1">
+                <h1 class="text-3xl text-center text-gray-700 font-semibold mt-1">
                     Sign in to your account
                 </h1>
 
