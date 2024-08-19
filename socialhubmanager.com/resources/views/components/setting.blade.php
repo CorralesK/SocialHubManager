@@ -26,7 +26,7 @@
                     Publications Schedules
                 </a>
             </li>
-            @if (auth()->check() && auth()->user()->socialAccount)
+            @if (auth()->user()->socialAccount()->exists())
                 <li>
                     <a href="/post/create"
                         class="{{ request()->is('post/create') ? 'text-white bg-blue-500' : '' }} flex items-center rounded-lg py-2 px-2 transform transition hover:scale-110 hover:text-white hover:bg-blue-500">

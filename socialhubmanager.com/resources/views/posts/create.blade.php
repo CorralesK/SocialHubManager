@@ -14,6 +14,7 @@
                                 {{ $social->provider }}
                             </x-form.radio-option>
                         @endforeach
+                        <x-form.error name="provider" />
                     </x-form.field>
 
                     <x-form.field>
@@ -30,6 +31,8 @@
                         </x-form.radio-option>
                         <x-form.radio-option name="publish_option" value="queue"> Add to Queue </x-form.radio-option>
                         <x-form.radio-option name="publish_option" value="schedule"> Schedule </x-form.radio-option>
+
+                        <x-form.error name="publish_option" />
                     </x-form.field>
 
                     <div id="scheduleDateTimePicker" class="mb-4 mt-6" style="display: none;">
