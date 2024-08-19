@@ -55,7 +55,7 @@ class TwoFactorController extends Controller
         }
 
 
-        return redirect('/two-factor/activate')->withErrors(['otp' => 'Invalid OTP. Please try again.']);
+        return redirect('/two-factor/activate')->withErrors(['otp' => 'Invalid One-Time Password. Please try again.']);
     }
 
     public function edit()
@@ -72,7 +72,7 @@ class TwoFactorController extends Controller
         $user = User::find(session('2fa:user:id'));
 
         if (!$user) {
-            return redirect('/login')->withErrors(['email' => 'Unable to find user for 2FA verification.']);
+            return redirect('/login')->withErrors(['email' => 'Unable to find user for two factor authentication verification.']);
         }
 
         if ($this->twoFactorService->validateOtp($user->two_factor_secret, $request->otp)) {
@@ -83,7 +83,7 @@ class TwoFactorController extends Controller
             return redirect('/')->with('success', '2FA verification successful.');
         }
 
-        return redirect('/two-factor/verify')->withErrors(['otp' => 'Invalid OTP. Please try again.']);
+        return redirect('/two-factor/verify')->withErrors(['otp' => 'Invalid One-Time Password. Please try again.']);
     }
 
     public function destroy(Request $request)
@@ -93,6 +93,6 @@ class TwoFactorController extends Controller
         $user->uses_two_factor = false;
         $user->save();
 
-        return redirect('/')->with('success', 'Two factor authentication disabled successfully.');
+        return back()->with('success', 'Two factor authentication disabled successfully.');
     }
 }

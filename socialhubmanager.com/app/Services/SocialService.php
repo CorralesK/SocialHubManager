@@ -28,9 +28,9 @@ abstract class SocialService
             [
                 'provider' => $provider,
                 'provider_user_id' => $userId,
+                'user_id' => auth()->id()
             ],
             [
-                'user_id' => auth()->id(),
                 'provider_token' => $accessToken,
                 'provider_token_secret' => $tokenSecret,
                 'provider_refresh_token' => $refreshToken

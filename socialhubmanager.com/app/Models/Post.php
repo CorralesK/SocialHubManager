@@ -24,6 +24,7 @@ class Post extends Model
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->select([
+            'posts.id',
             'posts.content',
             'posts.provider',
             'posts.is_instant',
